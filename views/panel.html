@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <title>Admin Access Panel</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1 id="Welcome">
+      LOADING...
+    </h1>
+    <div id="Normal">
+      <h2>
+        Successful Login!
+      </h2>
+      <button onclick="location.href='https://wl.glitch.me/signout'">
+        SIGN OUT
+      </button>
+    </div>
+    <div id="Error">
+      <h2>
+        ERROR - ERROR - ERROR - ERROR
+      </h2>
+      <h4 id="ErrorCode">
+        LOADING...
+      </h4>
+      <h4 id="ErrorReason">
+        LOADING...
+      </h4>
+    </div>
+    <script>
+      function Load() {
+        function getAllUrlParams(url) {
+          var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+          var obj = {};
+          if (queryString) {
+              queryString = queryString.split('#')[0];
+              var arr = queryString.split('&');
+              for (var i=0; i<arr.length; i++) {
+              var a = arr[i].split('=');
+              var paramNum = undefined;
+              var paramName = a[0].replace(/\[\d*\]/, function(v) {
+              paramNum = v.slice(1,-1);
+              return '';
+          });
+          var paramValue = typeof(a[1])==='undefined' ? true : a[1];
+          paramName = paramName.toLowerCase();
+          paramValue = paramValue.toLowerCase();
+          if (obj[paramName]) {
+            if (typeof obj[paramName] === 'string') {
+              obj[paramName] = [obj[paramName]];
+            }
+            if (typeof paramNum === 'undefined') {
+              obj[paramName].push(paramValue);
+            }
+            else {
+              obj[paramName][paramNum] = paramValue;
+            }
+          }
+          else {
+            obj[paramName] = paramValue;
+          }
+        }
+      }
+      return obj;
+    }
+        const ID = getAllUrlParams().id
+        const ERROR = getAllUrlParams().error
+        if (ID == 1) {
+          console.log("Detected User WYATT LIPSCOMB")
+          var User = "WYATT LIPSCOMB"
+          }
+        else if (ID == 2) {
+          var User = "TOMMY LIPSCOMB"
+          }
+        else if (ID == 3) {
+          var User = "LORI LIPSCOMB"
+          }
+        else if (ID == 100) {
+          console.log("Detected User SYSTEM")
+          var User = "SYSTEM"
+          }
+        else {
+          console.log("CANNOT IDENTIFY USER.")
+        }
+        if (ERROR == 200) {
+          console.warn("Code 200 - Successful!")
+          document.getElementById("Error").style.visibility = 'hidden'
+          document.getElementById("Normal").style.visibility = 'normal'
+        }
+        else if (ERROR == 404) {
+          console.error("ERROR! CODE 404 - BAD USER IDENTIFER")
+          document.getElementById("Error").style.visibility = 'visible'
+          document.getElementById("Normal").style.visibility = 'hidden'
+          document.getElementById("ErrorCode").innerHTML = "404 - BAD USER IDENTIFER"
+          document.getElementById("ErrorReason").innerHTML = "Error Identifed As 404 - BAD USER IDENTIFER. This is caused when your user ID is not in the system, but you made a successful login. You cannot fix this. Please contact your admin for help, or more infomation.";
+        }
+        else if (ERROR == undefined) {
+          console.error("ERROR! CODE 400 - CILENT ERROR")
+          document.getElementById("Error").style.visibility = 'visible'
+          document.getElementById("Normal").style.visibility = 'hidden'
+          document.getElementById("ErrorCode").innerHTML = "400 - UNKNOWN CILENT ERROR"
+          document.getElementById("ErrorReason").innerHTML = "Unknown Cilent Error. Please Contact your admin for help. IDENTIFED ERROR AS 400 CILENT ERROR"
+        }
+        document.getElementById("Welcome").innerHTML = "Welcome " + User + "!";
+      }
+      
+      Load()
+    </script>
+  </body>
+</html>
