@@ -92,7 +92,6 @@ app.get('/panel', function(request, response) {
 
   
   var qdata = q.query;
-  var test = alert(qdata.id);
   
   if (qdata.id == 1) {
     console.log("Identified User as WYATT LIPSCOMB")
